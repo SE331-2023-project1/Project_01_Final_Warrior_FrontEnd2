@@ -8,7 +8,7 @@
               <img src="https://media.tenor.com/Y0rQE-mqiUoAAAAC/bocchi-bocchi-the-rock.gif" > <!-- 500x500px!!! --> <!-- <img :src="student?.image" :alt="student?.name" class="w-full h-full object-cover rounded-lg" /> -->
             </div>
             <div class="box">
-              <span class="details">ID: 1</span><!-- {{ student.id }} -->
+              <span class="details">ID: {{ student?.id }} </span><!-- {{ student.id }} -->
               <span class="details">Name: Goutou Hitori</span><!-- {{ student.name }} {{ student.surname }} -->
               <span class="details">Department: CAMT</span><!-- {{ student.department }} -->
               <span class="details">Advisor: Kikuri Hiroi</span><!-- {{ student.advisorId }} -->
@@ -36,8 +36,15 @@
   </template>
   
   <script lang="ts">
-  
-  
+  import type { StudentItem } from '@/type'
+  import { defineProps, type PropType } from 'vue';
+
+defineProps({
+  student: {
+    type: Object as PropType<StudentItem>,
+    required: true
+  }
+});
   </script>
   
   

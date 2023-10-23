@@ -22,6 +22,7 @@ import StudentProfileView from '@/views/StudentProfileView.vue'
 import EditProfileView from '@/views/EditProfileView.vue'
 import AdvisorProfileView from '@/views/AdvisorProfileView.vue'
 import AboutView from '@/views/AboutView.vue'
+import EditAdvisorProfileView from '@/views/EditAdvisorProfileView.vue'
 
 
 const router = createRouter({
@@ -235,6 +236,12 @@ const router = createRouter({
       name: 'about',
       component: AboutView
       
+    },
+    {
+      path: '/editadvisor',
+      name: 'editadvisor',
+      component: EditAdvisorProfileView
+
     }
     
   ],
