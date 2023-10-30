@@ -15,7 +15,7 @@
       </div>
 
       <div id="flashMessage" class="mb-2 animate-pulse text-center text-base font-fig bg-red-500 font-fig text-white">
-        <h4 v-if="flashMessage">{{ flashMessage }}</h4>
+        <h4 v-if="!(message.message.value === '')">{{ message.message.value }}</h4>
       </div>
 
       <div class="button">
@@ -31,35 +31,39 @@ import { defineComponent } from 'vue';
 import { useField, useForm } from 'vee-validate';
 import { useAuthStore } from '@/stores/auth';
 import { useRouter } from 'vue-router';
+import { useMessageStore } from '@/stores/message';
+import { storeToRefs } from 'pinia';
 
 export default defineComponent({
   setup() {
     const authStore = useAuthStore();
     const router = useRouter();
+    const messageStore = useMessageStore();
+    const message = storeToRefs(messageStore);
 
     const { handleSubmit } = useForm();
 
     const { value: email } = useField('email');
     const { value: password } = useField('password');
 
-    let flashMessage = '';
-
     const onSubmit = handleSubmit(async () => {
       try {
-        const response = await authStore.login(email.value, password.value);
-        console.log('Login response:', response);
-        flashMessage = 'Login successful'; // Set the flash message
-        setTimeout(() => {
-          flashMessage = ''; // Clear the flash message after a certain time
-        }, 3000);
-
-        router.push({ name: 'about' }); // Redirect to the desired page
+        const response = await authStore.login(email.value as string, password.value as string)
+        .then(() => {
+          //console.log('Login response:', response);
+          messageStore.updateMessage("Login successful");
+          setTimeout(() => {
+            messageStore.resetMessage();
+            router.push({ name: 'about' }); // Redirect to about page
+          }, 1000);
+        })
+        
       } catch (error) {
-        console.error('Error during login:', error);
-        flashMessage = 'Could not log in'; // Set the error message
-        setTimeout(() => {
-          flashMessage = ''; // Clear the flash message after a certain time
-        }, 3000);
+        // console.log('Login error:', error);
+          messageStore.updateMessage("Login failure");
+          setTimeout(() => {
+            messageStore.resetMessage();
+          }, 1000);
       }
     });
 
@@ -67,7 +71,7 @@ export default defineComponent({
       email,
       password,
       onSubmit,
-      flashMessage,
+      message,
     };
   },
 });
