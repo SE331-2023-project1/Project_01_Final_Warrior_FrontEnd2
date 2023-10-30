@@ -238,10 +238,10 @@ const router = createRouter({
       
     },
     {
-      path: '/editadvisor',
+      path: '/editadvisor/:id',
       name: 'editadvisor',
-      component: EditAdvisorProfileView
-
+      component: EditAdvisorProfileView,
+      props: true
     }
     
   ],

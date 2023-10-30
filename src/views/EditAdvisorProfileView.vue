@@ -4,10 +4,10 @@
     <div class="content">
       <form @submit.prevent="onSubmit">
         <div class="user-details">
-          <div class="input-box">
+          <!-- <div class="input-box">
             <span class="details">ID</span>
             <input type="text" placeholder="ID" class="input-field" v-model="id">
-          </div>
+          </div> -->
           <div class="input-box">
             <span class="details">Name</span>
             <input type="text" placeholder="Name" class="input-field" v-model="firstName">
@@ -45,6 +45,7 @@ import { useAdvisorStore } from '@/stores/advisor';
 import { useMessageStore } from '@/stores/message';
 import { useField, useForm } from 'vee-validate';
 import * as yup from 'yup';
+import type { Advisor } from '@/type';
 
 let isEditing = ref(false);
 const authStore = useAuthStore();
@@ -53,7 +54,9 @@ const storeMessage = useMessageStore();
 const advisor = ref(null);
 let images = '';
 
-
+const props = defineProps({
+  id: String
+});
 
 // onMounted(async () => {
 //   try {
@@ -80,7 +83,7 @@ let images = '';
 const { errors, handleSubmit } = useForm({
   // validationSchema,
   initialValues: {
-    id: '',
+    id: props.id,
     firstName: '',
     lastName: '',
     dept: '',
@@ -100,7 +103,7 @@ const enterEditMode = () => {
 const onSubmit = handleSubmit(async (values) => {
   try {
     console.log(values)
-    await authStore.advisorUpdateProfile(values.id, values.firstName, values.lastName, values.dept);
+    await authStore.advisorUpdateProfile(values.id as string, values.firstName, values.lastName, values.dept);
     storeMessage.updateMessage('Update profile successful');
     setTimeout(() => {
       storeMessage.resetMessage();
