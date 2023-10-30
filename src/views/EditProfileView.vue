@@ -2,31 +2,23 @@
   <div class="container">
     <div class="title">Edit Profile</div>
     <div class="content">
-      <form>
+      <form @submit.prevent="onSubmit">
         <div class="user-details">
           <div class="input-box">
             <span class="details">ID</span>
-            <input type="text" placeholder="ID"> <!-- <input type="text" v-model="student.id" placeholder="ID" required> -->
+            <input type="text" placeholder="ID" class="input-field" v-model="id"> <!-- <input type="text" v-model="student.id" placeholder="ID" required> -->
           </div>
           <div class="input-box">
             <span class="details">Name</span>
-            <input type="text" placeholder="Name">
+            <input type="text" placeholder="Name" class="input-field" v-model="firstName">
           </div>
           <div class="input-box">
             <span class="details">Surname</span>
-            <input type="text" placeholder="Surname">
+            <input type="text" placeholder="Surname" class="input-field" v-model="lastName">
           </div>
           <div class="input-box">
             <span class="details">Department</span>
-            <input type="text" placeholder="Department">
-          </div>
-          <div class="input-box">
-            <span class="details">New Password</span>
-            <input type="password" placeholder="New Password">
-          </div>
-          <div class="input-box">
-            <span class="details">Confirm New Password</span>
-            <input type="password" placeholder="Confirm New Password">
+            <input type="text" placeholder="Department" class="input-field" v-model="dept">
           </div>
           <div class="input-box-img">
             <span class="details">Profile image</span>
@@ -41,35 +33,90 @@
   </div>
 </template>
 
-<script lang="ts">
-// export default {
-//   data() {
-//     return {
-//       student: {
-//         id: '',
-//         name: '',
-//         surname: '',
-//         department: '',
-//         password: '',
-//       }
-//     };
-//   },
-//   methods: {
-//     registerStudent() {
-//       // You can save the student data to a database or send it to an API here
-//       console.log('Student registered:', this.student);
-//       // Reset the form fields
-//       this.student = {
-//         id: '',
-//         name: '',
-//         surname: '',
-//         department: '',
-//         password: ''
-//       };
+<script setup lang="ts">
+import { ref, onMounted } from 'vue';
+import { useAuthStore } from '@/stores/auth';
+import { useStudentStore } from '@/stores/student';
+import { useMessageStore } from '@/stores/message';
+import { useField, useForm } from 'vee-validate';
+import * as yup from 'yup';
+
+let isEditing = ref(false);
+const authStore = useAuthStore();
+const studentStore = useStudentStore();
+const storeMessage = useMessageStore();
+const student = ref(null);
+let images = '';
+
+
+
+// onMounted(async () => {
+//   try {
+//     const response = await advisorStore.getAdvisorById(authStore.id);
+//     advisor.value = response;
+//     if (advisor.value) {
+//       id.value = advisor.value.id;
+//       firstName.value = advisor.value.name;
+//       lastName.value = advisor.value.surname;
+//       department.value = advisor.value.department;
 //     }
+//   } catch (error) {
+//     console.error('Error fetching advisor data:', error);
 //   }
-// };
+// });
+
+// const validationSchema = yup.object({
+//   id: yup.string().required('The id is required'),
+//   firstName: yup.string().required('The firstName is required'),
+//   lastName: yup.string().required('The lastName is required'),
+//   department: yup.string().required('The department is required'),
+// });
+
+const { errors, handleSubmit } = useForm({
+  // validationSchema,
+  initialValues: {
+    id: '',
+    firstName: '',
+    lastName: '',
+    dept: '',
+  },
+});
+
+
+
+const saveChanges = () => {
+  isEditing.value = false;
+};
+
+const enterEditMode = () => {
+  isEditing.value = true;
+};
+
+const onSubmit = handleSubmit(async (values) => {
+  try {
+    console.log(values)
+    await authStore.studentUpdateProfile(values.id, values.firstName, values.lastName, values.dept);
+    storeMessage.updateMessage('Update profile successful');
+    setTimeout(() => {
+      storeMessage.resetMessage();
+    }, 4000);
+  } catch (error) {
+    storeMessage.updateMessage('Could not update profile');
+    setTimeout(() => {
+      storeMessage.resetMessage();
+    }, 3000);
+  }
+});
+
+const { value: id } = useField<string>('id')
+
+const { value: firstName } = useField<string>('firstName')
+
+const { value: lastName } = useField<string>('lastName')
+
+const { value: dept } = useField<string>('dept')
 </script>
+
  
 <style scoped>
 *{

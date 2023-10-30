@@ -90,6 +90,23 @@ export const useAuthStore = defineStore('auth', {
         });
         return response;
     },
-    
+    async advisorUpdateProfile(id: string, firstName: string, lastName: string, dept: string) {
+      const response = await apiClient.put('/updateadvisor', {
+        id: id,
+        name: firstName,
+        surname: lastName,
+        dept: dept
+      })
+      return response
+    },
+    async studentUpdateProfile(id: string, firstName: string, lastName: string, dept: string) {
+      const response = await apiClient.put('/updatestudents', {
+        id: id,
+        name: firstName,
+        surname: lastName,
+        dept: dept
+      })
+      return response
+    },
   }
 });
