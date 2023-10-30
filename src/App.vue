@@ -20,6 +20,6 @@ import SideBar from './components/SideBar.vue'
 .flex {
   display: flex;
   min-height: 100vh;
-  background-color: white;
+  background-color: #ffdfc0;
 }
 </style>

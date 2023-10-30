@@ -36,14 +36,16 @@
             </router-link>
           </div>
         </div>
+        <hr>
+          <div class="title">Comment</div>
+          <div class="comment-box">
+            <textarea v-model="comment" placeholder="Enter your comment here"></textarea>
+            <button @click="submitComment">Submit</button>
+          </div>
       </form>
     </div>
   </div>
-  <div class="comment">
-    <div class="title">Comment</div>
-    <!-- <CommentForm class="mt-4" :studentId="student.id" />
-      <CommentList class="mt-4" :studentId="student.id" :key="student.id" /> -->
-  </div>
+
 </template>
 
 <script lang="ts" setup>
@@ -67,6 +69,31 @@ StudentService.getStudentById(Number(store.studentId)).then((response) => {
             }
     })
 
+// export default {
+//   name: "CommentBox",
+//   data() {
+//     return {
+//       comment: "",
+//       comments: []
+//     };
+//   },
+//   methods: {
+//     onSubmit(event) {
+//       event.preventDefault();
+//
+      // Send the form data to the server.
+//       axios.post("/api/comments", {
+//         text: this.comment
+//       }).then(response => {
+//         // Add the new comment to the comments array.
+//         this.comments.push(response.data);
+
+//         // Clear the text input field.
+//         this.comment = "";
+//       });
+//     }
+//   }
+// };
 </script>
 
 <style scoped>
@@ -201,5 +228,36 @@ form .button input:hover {
 .comment .title {
   font-size: 25px;
   font-weight: 500;
+}
+.comment-box {
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.comment-box textarea {
+  width: 100%;
+  height: 50px;
+  padding: 5px;
+  border: none;
+  outline: none;
+}
+
+.comment-box button {
+  margin-top: 10px;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  background: #FFC288;
+  color: #fff;
+  cursor: pointer;
+}
+form .comment-box button:hover{
+  background: #ffac5f;
+}
+hr {
+  border: 1px solid black;
+  margin: 15px 0;
 }
 </style>

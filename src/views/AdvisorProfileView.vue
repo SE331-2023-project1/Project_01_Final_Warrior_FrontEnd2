@@ -11,6 +11,16 @@
             <span class="details">ID: 1</span><!-- {{ advisor.id }} -->
             <span class="details">Name: Kikuri Hiroi</span><!-- {{ advisor.name }} {{ advisor.surname }} -->
           </div>
+          <div class="button">
+            <router-link to="/edit-profile">
+              <input type="submit" value="Edit">
+            </router-link>
+          </div>
+          <div class="button">
+            <router-link to="/advisee">
+              <input type="submit" value="Advisee" ><!-- Go to AdviseeListView -->
+            </router-link>
+          </div>
         </div>
       </form>
     </div>
@@ -19,14 +29,14 @@
   
 </template>
 
-<script lang="ts" setup>
+<script lang="ts">
 
 
 </script>
 
 
 <style scoped>
-*{
+  *{
     color: black;
     margin: 0;
     padding: 0;
@@ -52,11 +62,13 @@
   .container .title{
     font-size: 25px;
     font-weight: 500;
+
   }
   .container form .user-details{
     display: grid;
     grid-template-columns: 120px auto;
     margin: 10px 0 1px 0;
+    grid-template-rows: 110px;
   }
   form .user-details .box{
     margin-bottom: 15px;
@@ -107,7 +119,7 @@
   @media(min-width: 1024px){
     #app{
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr;
       padding: 0 2rem;
     }
   }
@@ -135,9 +147,6 @@
       flex-direction: column;
     }
     
-  }
-  .register {
-    color: #FFC288;
   }
   .profile-image-container {
     width: 100px;
