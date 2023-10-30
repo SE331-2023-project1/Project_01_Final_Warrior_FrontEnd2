@@ -14,7 +14,9 @@ const apiClient: AxiosInstance = axios.create({
 export const useAuthStore = defineStore('auth', {
   state: () => ({
     token: null as string | null,
-    userRole: null as string[] | null
+    userRole: null as string[] | null,
+    studentId: null as number | null,
+    advisorId: null as number | null
   }),
   getters: {
     currentUserName(): string {
@@ -34,6 +36,8 @@ export const useAuthStore = defineStore('auth', {
         console.log('Login response:', response);
         this.token = response.data.access_token;
         this.userRole = response.data.user_role;
+        this.studentId = response.data.student_id;
+        this.advisorId = response.data.advisor_id;
         localStorage.setItem('access_token', this.token as string);
         localStorage.setItem('user_role', JSON.stringify(this.userRole));
         return response;
@@ -66,6 +70,8 @@ export const useAuthStore = defineStore('auth', {
         // Assuming the response contains the access token and user role
         this.token = response.data.access_token;
         this.userRole = response.data.user_role;
+        this.studentId = response.data.student_id;
+        this.advisorId = response.data.advisor_id;
         localStorage.setItem('access_token', this.token as string);
         localStorage.setItem('user_role', JSON.stringify(this.userRole));
         return response;
