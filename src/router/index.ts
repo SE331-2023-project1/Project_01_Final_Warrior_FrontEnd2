@@ -209,7 +209,10 @@ const router = createRouter({
     {
       path: '/',
       name: 'login',
-      component: LoginView
+      component: LoginView,
+      beforeEnter: (to) => {
+
+      }
     },
     {
       path: '/register',
