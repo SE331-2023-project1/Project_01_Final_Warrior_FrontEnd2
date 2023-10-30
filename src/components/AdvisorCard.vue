@@ -12,6 +12,7 @@
           </p>
           <div class="text-gray-800 font-bold text-lg mb-1">{{ advisor?.name }} {{ advisor?.surname }}</div>
           <p class="text-gray-700 text-sm mb-1">ID: {{ advisor?.id }}</p>
+          <p class="text-gray-700 text-sm mb-1">No. of advisee: {{ advisor?.ownStudent.length }}</p>
         </div>
       </article>
     </RouterLink>
