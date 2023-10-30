@@ -28,3 +28,10 @@ export interface Advisor {
   images: string;
   ownStudent: StudentItem[];
 }
+
+export interface AnnouncementItem {
+  id: string,
+  message: string;
+  file: string;
+  advisor: string;
+}
