@@ -28,6 +28,9 @@
         <div class="button">
           <input type="submit" value="Confirm">
         </div>
+        <router-link to="/student-profile" class="back-link">
+          <button class="back-btn"> Back </button>
+        </router-link>
       </form>
     </div>
   </div>
@@ -244,5 +247,19 @@ form .user-details .input-box{
 }
 .login {
   color: #FFC288;
+}
+
+.back-btn {
+  background-color: #ffac5f;
+  color: #ffffff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.back-btn:hover {
+  background-color: #ffac5f;
 }
 </style>
