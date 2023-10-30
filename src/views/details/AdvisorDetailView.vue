@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { defineProps } from 'vue';
-import { Advisor } from '@/type';
-import Annoucement from '@/components/Annoucement.vue'
+import { type Advisor } from '@/type';
+import Annoucement from '@/components/AnnouncementCard.vue'
 
 
 defineProps({

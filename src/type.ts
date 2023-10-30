@@ -27,3 +27,10 @@ export interface Advisor {
   position: string;
   images: string;
 }
+
+export interface AnnouncementItem {
+  id: string,
+  message: string;
+  file: string;
+  advisor: string;
+}
