@@ -14,7 +14,7 @@ const apiClient: AxiosInstance = axios.create({
 export const useAuthStore = defineStore('auth', {
   state: () => ({
     token: null as string | null,
-    userRole: null as string[] | null,
+    userRole: null as string | null,
     studentId: null as number | null,
     advisorId: null as number | null
   }),
@@ -53,7 +53,7 @@ export const useAuthStore = defineStore('auth', {
       localStorage.removeItem('access_token');
       localStorage.removeItem('user_role');
     },
-    reload(token: string, userRole: string[]) {
+    reload(token: string, userRole: string) {
       this.token = token;
       this.userRole = userRole;
     },

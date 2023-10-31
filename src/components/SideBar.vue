@@ -85,7 +85,11 @@
           </div>
         </div>
         
-
+        <div class="text-sm">
+          <p v-if="authStore.userRole == 'ROLE_ADMIN'">Logged in as: ADMIN </p>
+          <p v-if="authStore.userRole == 'ROLE_STUDENT'">Logged in as: STUDENT </p>
+          <p v-if="authStore.userRole == 'ROLE_ADVISOR'">Logged in as: ADVISOR </p>
+        </div>
         <div class="text-sm">
             <li v-if="authStore.userRole == 'ROLE_ADMIN'"
               class="font-dm mb-2 lg:mb-0 lg:mr-4 hover:bg-white p-3 rounded-md flex items-center">
@@ -134,7 +138,6 @@ if (token && userRole) {
 </script>
 
 <script lang="ts">
-import { ref } from 'vue';
 
 export default {
   setup() {
