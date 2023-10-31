@@ -4,13 +4,10 @@ import { useAuthStore } from '@/stores/auth'
 import { useRouter } from 'vue-router'
 import { useMessageStore } from '@/stores/message'
 import * as yup from 'yup'
-import { storeToRefs } from 'pinia'
 
 const authStore = useAuthStore()
 const router = useRouter()
 const storeMessage = useMessageStore()
-
-const { message } = storeMessage
 
 const validationSchema = yup.object({
   firstName: yup.string()
