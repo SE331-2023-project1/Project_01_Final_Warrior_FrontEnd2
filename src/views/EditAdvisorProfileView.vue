@@ -20,6 +20,10 @@
             <span class="details">Department</span>
             <input type="text" :placeholder=" advisor?.dept " class="input-field" v-model="dept">
           </div>
+          <div class="input-box">
+            <span class="details">Position</span>
+            <input type="text" :placeholder=" advisor?.position " class="input-field" v-model="position">
+          </div>
           <!-- ส่วนที่เพิ่มเข้าไป -->
           <div class="input-box-img">
             <span class="details">Profile image</span>
@@ -86,6 +90,7 @@ const { errors, handleSubmit } = useForm({
     firstName: '',
     lastName: '',
     dept: '',
+    position: ''
   },
 });
 
@@ -102,7 +107,7 @@ const enterEditMode = () => {
 const onSubmit = handleSubmit(async (values) => {
   try {
     console.log(values)
-    await authStore.advisorUpdateProfile(values.id as string, values.firstName, values.lastName, values.dept);
+    await authStore.advisorUpdateProfile(values.id as string, values.firstName, values.lastName, values.dept, values.position);
     storeMessage.updateMessage('Update profile successful');
     setTimeout(() => {
       storeMessage.resetMessage();
@@ -122,6 +127,8 @@ const { value: firstName } = useField<string>('firstName')
 const { value: lastName } = useField<string>('lastName')
 
 const { value: dept } = useField<string>('dept')
+
+const { value: position } = useField<string>('position')
 </script>
 
 

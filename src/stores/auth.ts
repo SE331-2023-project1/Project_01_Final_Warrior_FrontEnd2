@@ -90,12 +90,14 @@ export const useAuthStore = defineStore('auth', {
         });
         return response;
     },
-    async advisorUpdateProfile(id: string, firstName: string, lastName: string, dept: string) {
+    async advisorUpdateProfile(id: string, firstName: string, lastName: string, dept: string, position: string) {
       const response = await apiClient.put('/updateadvisor', {
         id: id,
         name: firstName,
         surname: lastName,
-        dept: dept
+        dept: dept,
+        position: position
+
       })
       return response
     },
