@@ -10,15 +10,15 @@
           <!-- </div> -->
           <div class="input-box">
             <span class="details">Name</span>
-            <input type="text" placeholder="Name" class="input-field" v-model="firstName">
+            <input type="text" :placeholder="student?.name" class="input-field" v-model="firstName">
           </div>
           <div class="input-box">
             <span class="details">Surname</span>
-            <input type="text" placeholder="Surname" class="input-field" v-model="lastName">
+            <input type="text" :placeholder="student?.surname" class="input-field" v-model="lastName">
           </div>
           <div class="input-box">
             <span class="details">Department</span>
-            <input type="text" placeholder="Department" class="input-field" v-model="dept">
+            <input type="text" :placeholder="student?.dept" class="input-field" v-model="dept">
           </div>
           <div class="input-box-img">
             <span class="details">Profile image</span>
@@ -43,6 +43,8 @@ import { useStudentStore } from '@/stores/student';
 import { useMessageStore } from '@/stores/message';
 import { useField, useForm } from 'vee-validate';
 import * as yup from 'yup';
+import { useRouter } from 'vue-router';
+import StudentService from "@/services/StudentService";
 
 let isEditing = ref(false);
 const authStore = useAuthStore();
@@ -50,10 +52,22 @@ const studentStore = useStudentStore();
 const storeMessage = useMessageStore();
 const student = ref(null);
 let images = '';
+const router = useRouter()
 
 const props = defineProps({
   id: String
 });
+
+StudentService.getStudentById(Number(props.id)).then((response) => {
+    student.value = response.data
+    }).catch(error => {
+        console.log(error)
+            if(error.response && error.response.status === 404) {
+                router.push({ name: '404-resource', params: { resource: 'event'} })
+            }else {
+                router.push({ name: 'network-error' })
+            }
+    })
 
 
 // onMounted(async () => {
