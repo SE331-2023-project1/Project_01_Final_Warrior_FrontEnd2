@@ -1,12 +1,15 @@
 <script setup lang="ts">
 import AnnouncementCard from '@/components/AnnouncementCard.vue'
-import type { AnnouncementItem } from '@/type'
+import type { Advisor, AnnouncementItem } from '@/type'
 import { ref, watchEffect, computed } from 'vue'
 import type { Ref } from 'vue'
 import { useAuthStore } from '@/stores/auth';
 import AnnouncementService from '@/services/AnnouncementService'
+import AdvisorService from '@/services/AdvisorService';
+import router from '@/router';
 
 const posts: Ref<Array<AnnouncementItem>> = ref([])
+const advisor = ref<Advisor | null>(null);
 const authStore = useAuthStore();
 
 watchEffect(() => {
@@ -14,6 +17,18 @@ watchEffect(() => {
     posts.value = response.data
   })
 })
+
+AdvisorService.getAdvisorById(Number(authStore.advisorId)).then((response) => {
+    advisor.value = response.data
+    }).catch(error => {
+        console.log(error)
+            if(error.response && error.response.status === 404) {
+                router.push({ name: '404-resource', params: { resource: 'event'} })
+            }else {
+                router.push({ name: 'network-error' })
+            }
+    })
+
 </script>
 
 <template>
@@ -25,10 +40,10 @@ watchEffect(() => {
             :src="post.user.profilePicture"
             :alt="post.user.name + ' Profile Picture'"
           /> -->
-          <!-- <span>{{ post.user.name }}</span> -->
+          <span><b>{{ advisor?.name }} {{ advisor?.surname }}</b> posted</span>
         </div>
         <div class="post-content">
-          <p>{{ post.message }}</p>
+          <p>{{ post.message }}</p><br>
           <img :src="post.file" alt="owo" v-if="post.file" />
         </div>
       </div>
@@ -44,11 +59,12 @@ watchEffect(() => {
 }
 
 .post {
-  width: 60%;
+  width: 40%;
   margin: 20px;
   padding: 20px;
   border: 1px solid #ddd;
   border-radius: 10px;
+  background-color: white;
 }
 
 .post-wrapper {
@@ -71,6 +87,8 @@ watchEffect(() => {
 
 .post-content {
   margin-bottom: 10px;
+  max-height: 40%;
+  max-width: 40%;
 }
 
 .reactions button {
