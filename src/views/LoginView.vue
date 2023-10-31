@@ -6,7 +6,7 @@
       <div class="user-details">
         <div class="input-box">
           <span class="details">ID </span>
-          <input v-model="email" type="text" id="id" placeholder="ID" required>
+          <input v-model="username" type="text" id="id" placeholder="ID" required>
         </div>
         <div class="input-box">
           <span class="details">Password </span>
@@ -36,6 +36,7 @@ import { useAuthStore } from '@/stores/auth';
 import { useRouter } from 'vue-router';
 import { useMessageStore } from '@/stores/message';
 import { storeToRefs } from 'pinia';
+import * as yup from 'yup'
 
 export default defineComponent({
   setup() {
@@ -44,14 +45,27 @@ export default defineComponent({
     const messageStore = useMessageStore();
     const message = storeToRefs(messageStore);
 
-    const { handleSubmit } = useForm();
+    const validationSchema = yup.object({
+  username: yup.string()
+    .required('Please enter your username.'),
+  password: yup
+    .string()
+})
 
-    const { value: email } = useField('email');
+const { errors, handleSubmit } = useForm({
+  validationSchema,
+  initialValues: {
+    username: '',
+    password: ''
+  }
+})
+
+    const { value: username } = useField('username');
     const { value: password } = useField('password');
 
     const onSubmit = handleSubmit(async () => {
       try {
-        const response = await authStore.login(email.value as string, password.value as string)
+        const response = await authStore.login(username.value as string, password.value as string)
         .then(() => {
           //console.log('Login response:', response);
           messageStore.updateMessage("Login successful");
@@ -71,7 +85,7 @@ export default defineComponent({
     });
 
     return {
-      email,
+      username,
       password,
       onSubmit,
       message,
