@@ -10,15 +10,15 @@
           </div> -->
           <div class="input-box">
             <span class="details">Name</span>
-            <input type="text" placeholder="Name" class="input-field" v-model="firstName">
+            <input type="text" :placeholder=" advisor?.name " class="input-field" v-model="firstName">
           </div>
           <div class="input-box">
             <span class="details">Surname</span>
-            <input type="text" placeholder="Surname" class="input-field" v-model="lastName">
+            <input type="text" :placeholder=" advisor?.surname " class="input-field" v-model="lastName">
           </div>
           <div class="input-box">
             <span class="details">Department</span>
-            <input type="text" placeholder="Department" class="input-field" v-model="dept">
+            <input type="text" :placeholder=" advisor?.dept " class="input-field" v-model="dept">
           </div>
           <!-- ส่วนที่เพิ่มเข้าไป -->
           <div class="input-box-img">
@@ -47,6 +47,7 @@ import { useField, useForm } from 'vee-validate';
 import * as yup from 'yup';
 import type { Advisor } from '@/type';
 import { useRouter } from 'vue-router';
+import AdvisorService from '@/services/AdvisorService'
 
 let isEditing = ref(false);
 const authStore = useAuthStore();
@@ -60,20 +61,16 @@ const props = defineProps({
   id: String
 });
 
-// onMounted(async () => {
-//   try {
-//     const response = await advisorStore.getAdvisorById(authStore.id);
-//     advisor.value = response;
-//     if (advisor.value) {
-//       id.value = advisor.value.id;
-//       firstName.value = advisor.value.name;
-//       lastName.value = advisor.value.surname;
-//       department.value = advisor.value.department;
-//     }
-//   } catch (error) {
-//     console.error('Error fetching advisor data:', error);
-//   }
-// });
+AdvisorService.getAdvisorById(Number(props.id)).then((response) => {
+    advisor.value = response.data
+    }).catch(error => {
+        console.log(error)
+            if(error.response && error.response.status === 404) {
+                router.push({ name: '404-resource', params: { resource: 'event'} })
+            }else {
+                router.push({ name: 'network-error' })
+            }
+    })
 
 // const validationSchema = yup.object({
 //   id: yup.string().required('The id is required'),
