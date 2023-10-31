@@ -4,10 +4,10 @@
     <div class="content">
       <form @submit.prevent="onSubmit">
         <div class="user-details">
-          <div class="input-box">
-            <span class="details">ID</span>
-            <input type="text" placeholder="ID" class="input-field" v-model="id"> <!-- <input type="text" v-model="student.id" placeholder="ID" required> -->
-          </div>
+          <!-- <div class="input-box"> -->
+            <!-- <span class="details">ID</span> -->
+            <!-- <input type="text" placeholder="ID" class="input-field" v-model="id"> <input type="text" v-model="student.id" placeholder="ID" required> -->
+          <!-- </div> -->
           <div class="input-box">
             <span class="details">Name</span>
             <input type="text" placeholder="Name" class="input-field" v-model="firstName">
