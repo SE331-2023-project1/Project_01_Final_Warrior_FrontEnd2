@@ -20,7 +20,7 @@ export interface CommentItem {
 }
 
 export interface Advisor {
-  id: string;
+  id: number;
   name: string;
   surname: string;
   dept: string;
@@ -33,5 +33,5 @@ export interface AnnouncementItem {
   id: string,
   message: string;
   file: string;
-  advisor: string;
+  advisor: Advisor;
 }

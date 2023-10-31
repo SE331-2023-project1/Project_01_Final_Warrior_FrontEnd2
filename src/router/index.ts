@@ -23,6 +23,7 @@ import EditProfileView from '@/views/EditProfileView.vue'
 import AdvisorProfileView from '@/views/AdvisorProfileView.vue'
 import AboutView from '@/views/AboutView.vue'
 import EditAdvisorProfileView from '@/views/EditAdvisorProfileView.vue'
+import AnnouncementPageAdmin from '@/views/AnnouncePageAdmin.vue'
 
 
 const router = createRouter({
@@ -205,6 +206,11 @@ const router = createRouter({
       path: '/announcement',
       name: 'announcement',
       component: AnnouncePage
+    },
+    {
+      path: '/announcementadmin',
+      name: 'announcementadmin',
+      component: AnnouncementPageAdmin
     },
     {
       path: '/',
