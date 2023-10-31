@@ -51,6 +51,9 @@ const storeMessage = useMessageStore();
 const student = ref(null);
 let images = '';
 
+const props = defineProps({
+  id: String
+});
 
 
 // onMounted(async () => {
@@ -78,7 +81,7 @@ let images = '';
 const { errors, handleSubmit } = useForm({
   // validationSchema,
   initialValues: {
-    id: '',
+    id: props.id,
     firstName: '',
     lastName: '',
     dept: '',
@@ -98,7 +101,7 @@ const enterEditMode = () => {
 const onSubmit = handleSubmit(async (values) => {
   try {
     console.log(values)
-    await authStore.studentUpdateProfile(values.id, values.firstName, values.lastName, values.dept);
+    await authStore.studentUpdateProfile(values.id as string, values.firstName, values.lastName, values.dept);
     storeMessage.updateMessage('Update profile successful');
     setTimeout(() => {
       storeMessage.resetMessage();

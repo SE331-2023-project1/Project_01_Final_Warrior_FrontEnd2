@@ -225,9 +225,10 @@ const router = createRouter({
       component: StudentProfileView
     },
     {
-      path: '/edit-profile',
+      path: '/edit-profile/:id',
       name: 'edit-profile',
-      component: EditProfileView
+      component: EditProfileView,
+      props: true
     },
     {
       path: '/advisor-profile',

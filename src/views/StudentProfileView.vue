@@ -23,7 +23,7 @@
             >{{ student.advisorId }} -->
           </div>
           <div class="button">
-            <router-link to="/edit-profile">
+            <router-link :to="{ name: 'edit-profiles', params: { id: student?.id } }">
               <input type="submit" value="Edit" /><!-- Go to Edit Profile -->
             </router-link>
           </div>
