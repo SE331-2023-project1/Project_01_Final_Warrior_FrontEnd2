@@ -12,7 +12,7 @@ const advisors: Ref<Array<Advisor>> = ref([])
 const totalEvent = ref<number>(0)
 
 const hasNextPage = computed(() => {
-  const totalPages = Math.ceil(totalEvent.value / 3)
+  const totalPages = Math.ceil(totalEvent.value / 6)
   return props.page.valueOf() < totalPages
 })
 
@@ -28,7 +28,7 @@ const props = defineProps({
 })
 
 watchEffect(() => {
-  AdvisorService.getAdvisors(3, props.page).then((response) => {
+  AdvisorService.getAdvisors(6, props.page).then((response) => {
     advisors.value = response.data
     totalEvent.value = response.headers['x-total-count']
   })

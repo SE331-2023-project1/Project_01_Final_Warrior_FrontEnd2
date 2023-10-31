@@ -22,12 +22,12 @@ const props = defineProps({
 const limit = ref(props.limit);
 
 const hasNextPage = computed(() => {
-  const totalPages = Math.ceil(totalEvent.value / 3);
+  const totalPages = Math.ceil(totalEvent.value / 6);
   return props.page.valueOf() < totalPages;
 });
 
 watchEffect(() => {
-  StudentService.getStudents(3, props.page).then((response) => {
+  StudentService.getStudents(6, props.page).then((response) => {
     students.value = response.data;
     totalEvent.value = response.headers["x-total-count"];
   });
