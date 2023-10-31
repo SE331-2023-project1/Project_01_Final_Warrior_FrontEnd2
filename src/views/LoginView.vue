@@ -26,7 +26,7 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" >
 import { defineComponent } from 'vue';
 import { useField, useForm } from 'vee-validate';
 import { useAuthStore } from '@/stores/auth';

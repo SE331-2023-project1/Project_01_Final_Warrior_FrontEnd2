@@ -30,9 +30,9 @@
         <div class="button">
           <input type="submit" value="Confirm" class="submit-btn">
         </div>
-        <router-link to="/advisor" class="back-link">
-          <button class="back-btn"> Back </button>
-        </router-link>
+        <!-- <router-link to="/advisor" class="back-link" @click="router.go(-1)"> -->
+          <button class="back-btn" @click="router.go(-1)"> Back </button>
+        <!-- </router-link> -->
       </form>
     </div>
   </div>
@@ -46,12 +46,14 @@ import { useMessageStore } from '@/stores/message';
 import { useField, useForm } from 'vee-validate';
 import * as yup from 'yup';
 import type { Advisor } from '@/type';
+import { useRouter } from 'vue-router';
 
 let isEditing = ref(false);
 const authStore = useAuthStore();
 const advisorStore = useAdvisorStore();
 const storeMessage = useMessageStore();
 const advisor = ref(null);
+const router = useRouter()
 let images = '';
 
 const props = defineProps({

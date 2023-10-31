@@ -19,8 +19,8 @@
             ><!-- {{ student.name }} {{ student.surname }} -->
             <span class="details">Department: {{ student?.dept }}</span
             ><!-- {{ student.department }} -->
-            <span class="details">Advisor: {{ student?.advisorId }}</span
-            ><!-- {{ student.advisorId }} -->
+            <!-- <span class="details">Advisor: {{ student?.advisorId }}</span
+            >{{ student.advisorId }} -->
           </div>
           <div class="button">
             <router-link to="/edit-profile">

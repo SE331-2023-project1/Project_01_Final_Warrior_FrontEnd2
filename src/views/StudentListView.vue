@@ -1,76 +1,88 @@
 <script setup lang="ts">
-import StudentCard from '@/components/StudentCard.vue'
-import type { StudentItem } from '@/type'
-import { ref, watchEffect, computed } from 'vue'
-import type { Ref } from 'vue'
-import StudentService from '@/services/StudentService'
+import StudentCard from "@/components/StudentCard.vue";
+import type { StudentItem } from "@/type";
+import { ref, watchEffect, computed } from "vue";
+import type { Ref } from "vue";
+import StudentService from "@/services/StudentService";
 // import AddStudent from '@/components/AddStudent.vue'
 
-
-const students: Ref<Array<StudentItem>> = ref([])
-const totalEvent = ref<number>(0)
+const students: Ref<Array<StudentItem>> = ref([]);
+const totalEvent = ref<number>(0);
 
 const props = defineProps({
   page: {
     type: Number,
-    required: true
+    required: true,
   },
   limit: {
     type: Number,
-    required: true
-  }
-})
-const limit = ref(props.limit)
+    required: true,
+  },
+});
+const limit = ref(props.limit);
 
 const hasNextPage = computed(() => {
-  const totalPages = Math.ceil(totalEvent.value / 6)
-  return props.page.valueOf() < totalPages
-})
+  const totalPages = Math.ceil(totalEvent.value / 3);
+  return props.page.valueOf() < totalPages;
+});
 
 watchEffect(() => {
-  StudentService.getStudents(6, props.page).then((response) => {
-    students.value = response.data
-    totalEvent.value = response.headers['x-total-count']
-  })
-})
+  StudentService.getStudents(3, props.page).then((response) => {
+    students.value = response.data;
+    totalEvent.value = response.headers["x-total-count"];
+  });
+});
 
-console.log(hasNextPage)
+console.log(hasNextPage + "eiei");
 </script>
 
 <template>
   <main class="container mx-auto p-4">
     <h1 class="text-2xl font-bold mb-4">Student List</h1>
-     
+
     <div class="flex flex-row items-center justify-center mb-4">
-      <input class="search-input " type="text" placeholder="Search students"/>
+      <input class="search-input" type="text" placeholder="Search students" />
     </div>
     <div class="flex flex-col items-center">
-      <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1">
-        <StudentCard v-for="student in students" :key="student.id" :student="student" class="w-full mb-4" />
+      <div
+        class="grid grid-cols-1 gap-4 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1"
+      >
+        <StudentCard
+          v-for="student in students"
+          :key="student.id"
+          :student="student"
+          class="w-full mb-4"
+        />
       </div>
       <!-- Not using add student, keeping code only <AddStudent/> -->
       <div class="pagination flex items-center -space-x-px h-10 mt-4">
-    <RouterLink
-      :to="{ name: 'student-list', query: { page: page - 1, limit: limit } }"
-      rel="prev"
-      v-if="page != 1 && students.length > 0"
-      id="page-prev"
-      class="pagination-button"
-    >
-      Prev Page
-    </RouterLink>
-    <RouterLink
-      :to="{ name: 'student-list', query: { page: page + 1, limit: limit } }"
-      rel="next"
-      v-if="hasNextPage && students.length > 0"
-      id="page-next"
-      class="pagination-button"
-    >
-      Next Page
-    </RouterLink>
-  </div>
-  </div>
-</main>
+        <RouterLink
+          :to="{
+            name: 'student-list',
+            query: { page: page - 1, limit: limit },
+          }"
+          rel="prev"
+          v-if="page != 1 && students.length > 0"
+          id="page-prev"
+          class="pagination-button"
+        >
+          Prev Page
+        </RouterLink>
+        <RouterLink
+          :to="{
+            name: 'student-list',
+            query: { page: page + 1, limit: limit },
+          }"
+          rel="next"
+          v-if="hasNextPage && students.length > 0"
+          id="page-next"
+          class="pagination-button"
+        >
+          Next Page
+        </RouterLink>
+      </div>
+    </div>
+  </main>
 </template>
 
 <style scoped>
@@ -79,7 +91,7 @@ console.log(hasNextPage)
   margin: 0 auto;
 }
 
-.font-bold{
+.font-bold {
   font-weight: bolder;
 }
 
@@ -102,7 +114,7 @@ console.log(hasNextPage)
 
 .pagination-button {
   padding: 0.5rem 1rem;
-  background-color: #FFC288;
+  background-color: #ffc288;
   color: white;
   border-radius: 0.25rem;
   transition: background-color 0.3s ease-in-out;
@@ -112,7 +124,7 @@ console.log(hasNextPage)
 }
 
 .pagination-button:hover {
-  background-color: #FEA82F;
+  background-color: #fea82f;
 }
 
 @media (max-width: 767px) {

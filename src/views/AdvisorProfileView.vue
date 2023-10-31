@@ -8,11 +8,11 @@
             <img src="https://media.tenor.com/kXWb4lofzQcAAAAC/hiroi-kikuri-hiroi.gif" > <!-- 500x500px!!! --> <!-- <img :src="student?.image" :alt="student?.name" class="w-full h-full object-cover rounded-lg" /> -->
           </div>
           <div class="box">
-            <span class="details">ID: 1</span><!-- {{ advisor.id }} -->
-            <span class="details">Name: Kikuri Hiroi</span><!-- {{ advisor.name }} {{ advisor.surname }} -->
+            <span class="details">ID: {{ advisor?.id }}</span><!-- {{ advisor.id }} -->
+            <span class="details">Name: {{ advisor?.name }} {{ advisor?.surname }}</span><!-- {{ advisor.name }} {{ advisor.surname }} -->
           </div>
           <div class="button">
-            <router-link to="/edit-profile">
+            <router-link :to="{ name: 'editadvisor', params: { id: advisor?.id } }">
               <input type="submit" value="Edit">
             </router-link>
           </div>
@@ -29,9 +29,52 @@
   
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
+import type { Advisor } from "@/type";
+import { defineProps, ref, type PropType } from "vue";
+import AdvisorService from "@/services/AdvisorService";
+import { useAuthStore } from "@/stores/auth";
+import router from "@/router";
 
+const store = useAuthStore()
+const advisor = ref<Advisor | null>(null);
 
+AdvisorService.getAdvisorById(Number(store.advisorId)).then((response) => {
+    advisor.value = response.data
+    }).catch(error => {
+        console.log(error)
+            if(error.response && error.response.status === 404) {
+                router.push({ name: '404-resource', params: { resource: 'event'} })
+            }else {
+                router.push({ name: 'network-error' })
+            }
+    })
+
+// export default {
+//   name: "CommentBox",
+//   data() {
+//     return {
+//       comment: "",
+//       comments: []
+//     };
+//   },
+//   methods: {
+//     onSubmit(event) {
+//       event.preventDefault();
+//
+      // Send the form data to the server.
+//       axios.post("/api/comments", {
+//         text: this.comment
+//       }).then(response => {
+//         // Add the new comment to the comments array.
+//         this.comments.push(response.data);
+
+//         // Clear the text input field.
+//         this.comment = "";
+//       });
+//     }
+//   }
+// };
 </script>
 
 
