@@ -3,6 +3,8 @@ import { useField, useForm } from 'vee-validate'
 import { useAuthStore } from '@/stores/auth'
 import { useRouter } from 'vue-router'
 import { useMessageStore } from '@/stores/message'
+import * as yup from 'yup'
+import { storeToRefs } from 'pinia'
 
 const authStore = useAuthStore()
 const router = useRouter()
@@ -10,29 +12,56 @@ const storeMessage = useMessageStore()
 
 const { message } = storeMessage
 
-const { handleSubmit } = useForm()
+const validationSchema = yup.object({
+  firstName: yup.string()
+    .required('Firstname is required')
+    .matches(/^[A-Za-z]+$/, 'Only alphabetic characters'),
+
+  lastName: yup.string()
+    .required('LastName is required')
+    .matches(/^[A-Za-z]+$/, 'Only alphabetic characters'),
+
+  email: yup.string()
+    .required('Email is required')
+    .matches(/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/, 'Email address should ending with @example.com'),
+
+  username: yup.string()
+    .required('Username is required'),
+
+  password: yup.string()
+    .required('Password is required'),
+})
+
+const { errors, handleSubmit } = useForm({
+  validationSchema,
+
+  initialValues: { 
+    firstName: '',
+    lastName: '',
+    email: '',
+    username: '',
+    password: ''
+  }
+})
 
 const onSubmit = handleSubmit(async (values) => {
-  try {
-    console.log("hh")
-    await authStore.register(
-      values.firstName,
-      values.lastName,
-      values.email,
-      values.username,
-      values.password
-    );
-    router.push({ name: 'about' });
-    storeMessage.updateMessage('Registration successful');
-    setTimeout(() => {
-      storeMessage.resetMessage();
-    }, 4000);
-  } catch (error) {
-    storeMessage.updateMessage('could not register');
-    setTimeout(() => {
-      storeMessage.resetMessage();
-    }, 3000);
-  }
+  authStore
+    .register(values.firstName, values.lastName, values.email,values.username, values.password)
+    .then(() => {
+      router.push({ name: 'about' })
+      storeMessage.updateMessage('Registration successful');
+      setTimeout(() => {
+        storeMessage.resetMessage()
+      }, 4000)
+
+    })
+    .catch(() => {
+      storeMessage.updateMessage('Can not register')
+
+      setTimeout(() => {
+        storeMessage.resetMessage()
+      }, 3000)
+    })
 });
 
 const { value: firstName } = useField<string>('firstName')
@@ -51,22 +80,32 @@ const { value: password } = useField<string>('password')
             <div class="input-box">
               <span class="details">Firstname </span>
               <input type="text" v-model="firstName" placeholder="Firstname" required>
+              <div v-if="errors['firstName']" class="text-red-500 text-sm my-2" style="font-weight: 600; font-size: small;">❌
+              {{ errors['firstName'] }}</div>
             </div>
             <div class="input-box">
               <span class="details">Lastname </span>
               <input type="text" v-model="lastName" placeholder="LastName" required>
+              <div v-if="errors['lastName']" class="text-red-500 text-sm my-2" style="font-weight: 600; font-size: small;">❌
+              {{ errors['lastName'] }}</div>
             </div>
             <div class="input-box">
               <span class="details">Email </span>
               <input type="text" v-model="email" placeholder="Email" required>
+              <div v-if="errors['email']" class="text-red-500 text-sm my-2" style="font-weight: 600; font-size: small;">❌
+              {{ errors['email'] }}</div>
             </div>
             <div class="input-box">
               <span class="details">Username </span>
               <input type="text" v-model="username" placeholder="Username" required>
+              <div v-if="errors['username']" class="text-red-500 text-sm my-2" style="font-weight: 600; font-size: small;">❌
+              {{ errors['username'] }}</div>
             </div>
             <div class="input-box">
               <span class="details">Password </span>
               <input type="password" v-model="password" placeholder="Password" required>
+              <div v-if="errors['password']" class="text-red-500 text-sm my-2" style="font-weight: 600; font-size: small;">❌
+              {{ errors['password'] }}</div>
             </div>
           </div>
           

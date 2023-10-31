@@ -253,10 +253,10 @@ const router = createRouter({
       name: 'editadvisor',
       component: EditAdvisorProfileView,
       props: true
-    }
+    },
     {
       path: '/post',
-      name: 'pose',
+      name: 'post',
       component: PostAnnounceView
       
     },
