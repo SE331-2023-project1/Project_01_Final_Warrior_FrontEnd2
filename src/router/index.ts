@@ -24,6 +24,7 @@ import AdvisorProfileView from '@/views/AdvisorProfileView.vue'
 import AboutView from '@/views/AboutView.vue'
 import EditAdvisorProfileView from '@/views/EditAdvisorProfileView.vue'
 import AnnouncementPageAdmin from '@/views/AnnouncePageAdmin.vue'
+import PostAnnounceView from '@/views/PostAnnounceView.vue'
 
 
 const router = createRouter({
@@ -253,6 +254,12 @@ const router = createRouter({
       component: EditAdvisorProfileView,
       props: true
     }
+    {
+      path: '/post',
+      name: 'pose',
+      component: PostAnnounceView
+      
+    },
     
   ],
   scrollBehavior(to, from, savedPosition) {
