@@ -1,8 +1,7 @@
 <template>
     <div class="container">
-      <div class="title">Announcement Post</div>
+      <div class="title">Post an announcement</div>
       <div class="content">
-        
         <form @submit.prevent="postAnnouncement">
             <div class="comment-box">
                 <textarea v-model="announcementText" id="announcementText"></textarea>
