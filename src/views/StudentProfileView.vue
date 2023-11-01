@@ -28,7 +28,7 @@
             </router-link>
           </div>
           <div class="button">
-            <router-link to="/InfoA">
+            <router-link to="/advisor">
               <input
                 type="submit"
                 value="Advisor"
